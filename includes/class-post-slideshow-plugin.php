@@ -320,7 +320,7 @@ class Post_Slideshow_Plugin {
 
                 $output .= '</div>';
                 $output .= '<div class="post-slideshow-slide-legend">';
-                $output .= '<span>' . $i . ' / ' . $slide_count . '</span>';
+                $output .= '<span>Page ' . $i . ' / ' . $slide_count . '</span>';
                 $output .= '</div>';
                 $output .= '</div>';
                 $output .= '</div>';
