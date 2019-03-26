@@ -1,0 +1,10 @@
+# Folders
+node_modules/*
+public/dist/*
+admin/dist/*
+
+# Files
+.DS_Store
+
+# File Associations
+*.log

@@ -1,0 +1,12 @@
+.form-group {
+  margin-top: 1.75em;
+  margin-bottom: 1.75em;
+  width: 100%;
+  display: table;
+  clear: both;
+
+  input[type="text"],
+  textarea {
+    width: 100%;
+  }
+}

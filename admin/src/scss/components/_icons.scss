@@ -1,0 +1,11 @@
+.post-slideshow-img-preview {
+  &--inner {
+    span {
+      position: absolute;
+      right: 0;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
+  }
+}
