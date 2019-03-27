@@ -30,52 +30,63 @@
 			$i++;
 ?>
 
-<div class="wrap post-slideshow-slide">
-	<div class="form-group">
-		<label for="slide-title"><h4><?php esc_attr_e( 'Slide Title', 'post-slideshow' ); ?></h4></label>
-		<input type="text" class="large-text slide-title" name="post_slideshow_title[]" value="<?php echo $post_slide['post_slideshow_title']; ?>" />
-	</div>
+<div class="wrap post-slideshow-slide ui-sortable-handle">
+    <div class="meta-box-sortables ui-sortable">
+        <div class="postbox closed">
+            <button type="button" class="handlediv" aria-expanded="true">
+                <span class="screen-reader-text">Toggle panel</span>
+                <span class="toggle-indicator" aria-hidden="true"></span>
+            </button>
 
-	<div class="form-group">
-		<label for="slide-featured-image"><h4><?php esc_attr_e( 'Featured Image', 'post-slideshow' ); ?></h4></label>
-		<button type="button" class="button post-slideshow-add-featured-image"><?php echo $post_slide['post_slideshow_featured_image'] ? __( 'Change Featured Image', 'post-slideshow' ) : __( 'Attach Featured Image', 'post-slideshow' ); ?></button>
-		<input type="hidden" class="slide-featured-image" name="post_slideshow_featured_image[]" value="<?php echo $post_slide['post_slideshow_featured_image'] ?>" />
+            <h2 class="hndle" id="slide-preview" data-update="post-slideshow-title"><?php echo $post_slide['post_slideshow_title']; ?></h2>
 
-		<?php
-            if ( $post_slide['post_slideshow_featured_image'] ) :
-                $featured_img = wp_get_attachment_image_src( $post_slide['post_slideshow_featured_image'], 'medium' );
+            <div class="inside">
+                <div class="form-group">
+                    <label for="slide-title"><h4><?php esc_attr_e( 'Slide Title', 'post-slideshow' ); ?></h4></label>
+                    <input type="text" class="large-text slide-title" name="post_slideshow_title[]" value="<?php echo $post_slide['post_slideshow_title']; ?>" data-bind="post-slideshow-title" />
+                </div>
+                <div class="form-group">
+                    <label for="slide-featured-image"><h4><?php esc_attr_e( 'Featured Image', 'post-slideshow' ); ?></h4></label>
+                    <button type="button" class="button post-slideshow-add-featured-image"><?php echo $post_slide['post_slideshow_featured_image'] ? __( 'Change Featured Image', 'post-slideshow' ) : __( 'Attach Featured Image', 'post-slideshow' ); ?></button>
+                    <input type="hidden" class="slide-featured-image" name="post_slideshow_featured_image[]" value="<?php echo $post_slide['post_slideshow_featured_image'] ?>" />
 
-                if ( isset( $featured_img[0] ) ) :
-					$url = $featured_img[0];
-		?>
+                    <?php
+                        if ( $post_slide['post_slideshow_featured_image'] ) :
+                            $featured_img = wp_get_attachment_image_src( $post_slide['post_slideshow_featured_image'], 'medium' );
 
-		<div class="post-slideshow-img-preview">
-			<div class="post-slideshow-img-preview--inner">
-				<span class="dashicons dashicons-no delete-post-slideshow-img"></span>
-				<img src="<?php echo $url; ?>" alt="" />
-			</div>
-		</div>
+                            if ( isset( $featured_img[0] ) ) :
+                                $url = $featured_img[0];
+                    ?>
 
-		<?php
-				endif;
-			endif;
-		?>
+                    <div class="post-slideshow-img-preview">
+                        <div class="post-slideshow-img-preview--inner">
+                            <span class="dashicons dashicons-no delete-post-slideshow-img"></span>
+                            <img src="<?php echo $url; ?>" alt="" />
+                        </div>
+                    </div>
 
-	</div>
+                    <?php
+                            endif;
+                        endif;
+                    ?>
 
-	<div class="form-group">
-		<label for="slide-description"><h4><?php esc_attr_e( 'Slide Description', 'post-slideshow' ); ?></h4></label>
+                </div>
+                <div class="form-group">
+                    <label for="slide-description"><h4><?php esc_attr_e( 'Slide Description', 'post-slideshow' ); ?></h4></label>
 
-		<?php
-			$editor_settings = array(
-				'media_buttons' => false,
-				'textarea_name'	=> 'post_slideshow_description[]'
-			);
+                    <?php
+                        $editor_settings = array(
+                            'media_buttons' => false,
+                            'textarea_name'	=> 'post_slideshow_description[]'
+                        );
 
-			wp_editor( $post_slide['post_slideshow_description'], 'slide_description_' . $i, $editor_settings );
-		?>
+                        wp_editor( $post_slide['post_slideshow_description'], 'slide_description_' . $i, $editor_settings );
+                    ?>
 
-	</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <?php

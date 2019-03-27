@@ -27,6 +27,9 @@
     * practising this, we should strive to set a better example in our own work.
     */
 
+    var viewData;
+    viewData = {};
+
     $(function() {
       $('button.post-slideshow-add-slide').on('click', function () {
         var output, index;
@@ -119,6 +122,31 @@
           $(this).remove();
         });
         container.find('.post-slideshow-add-featured-image').text('Attach Featured Image');
+      });
+
+      // Update handle title while inputting slide title
+      $(document).on('change', '[data-bind]', function() {
+        var $this;
+        var wrap;
+
+        $this = $(this);
+        wrap = $this.closest('.wrap');
+
+        updateViewData($this.data('bind'), $this.val());
+        updateDisplay(wrap);
+
+        function updateViewData(key, value) {
+          viewData[key] = value;
+        }
+
+        function updateDisplay(target) {
+          var updateEls;
+          updateEls = $(target).find('[data-update]');
+
+          updateEls.each(function() {
+            $(this).html(viewData[$(this).data('update')]);
+          });
+        }
       });
     });
 

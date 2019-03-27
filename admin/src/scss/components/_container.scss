@@ -1,8 +1,15 @@
-.post-slideshow-img-preview {
-  margin: 1em 0;
+.post-slideshow {
+  &-slide {
+    width: 100%;
+    margin-top: 20px;
+  }
 
-  &--inner {
-    display: inline-block;
-    position: relative;
+  &-img-preview {
+    margin: 1em 0;
+
+    &--inner {
+      display: inline-block;
+      position: relative;
+    }
   }
 }
