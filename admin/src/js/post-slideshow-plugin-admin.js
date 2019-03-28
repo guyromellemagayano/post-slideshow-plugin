@@ -36,10 +36,14 @@
 
         index = $('.post-slideshow-slide').length + 1;
 
-        output = '<div class="wrap post-slideshow-slide">';
+        output = '<div class="wrap post-slideshow-slide post-slideshow-add-slide">';
+        output += '<div class="meta-box-sortables">';
+        output += '<div class="postbox ui-sortable-handle">';
+        output += '<h2 class="hndle ui-sortable" id="slide-preview"><i class="fas fa-ellipsis-v"></i><span class="post-slideshow-imgholder"></span><strong data-update="post-slideshow-title">New Slide</strong></h2>';
+        output += '<div class="inside">';
         output += '<div class="form-group">';
         output += '<label for="slide-title"><h4>Slide Title</h4></label>';
-        output += '<input type="text" class="large-text slide-title widefat" name="post_slideshow_title[]" />';
+        output += '<input type="text" class="large-text slide-title widefat" name="post_slideshow_title[]" value="" data-bind="post-slideshow-title" />';
         output += '</div>';
         output += '<div class="form-group">';
         output += '<label for="slide-featured-image"><h4>Featured Image</h4></label>';
@@ -51,8 +55,11 @@
         output += '<textarea class="slide-description widefat" id="slide_description_' + index + '" name="post_slideshow_description[]"></textarea>';
         output += '</div>';
         output += '</div>';
+        output += '</div>';
+        output += '</div>';
+        output += '</div>';
 
-        if ( index == 1 ) {
+        if (index == 1) {
           $(this).after(output);
         } else {
           $('.post-slideshow-slide').last().after(output);
@@ -60,13 +67,14 @@
 
         var settings = {
           tinymce: true,
-          media_buttons: true,
+          media_buttons: false,
+          height: 300,
           quicktags: {
             buttons: 'strong,em,link,ul,ol,li',
             media_buttons: true,
           }
         };
-        wp.editor.initialize('slide_description_' + index,settings);
+        wp.editor.initialize('slide_description_' + index, settings);
       });
 
       $(document).on('click', 'button.post-slideshow-add-featured-image', function () {
@@ -82,7 +90,7 @@
           state: 'insert'
         });
 
-        frame.on('insert', function() {
+        frame.on('insert', function () {
           var state, selection, attachment, display, imgurl, preview;
 
           state = frame.state();
@@ -118,14 +126,14 @@
 
         container = $(this).parent().parent().parent().parent();
         container.find('.slide-featured-image').val('');
-        container.find('.post-slideshow-img-preview').fadeOut(350, function() {
+        container.find('.post-slideshow-img-preview').fadeOut(350, function () {
           $(this).remove();
         });
         container.find('.post-slideshow-add-featured-image').text('Attach Featured Image');
       });
 
       // Update handle title while inputting slide title
-      $(document).on('change', '[data-bind]', function() {
+      $(document).on('keyup', '[data-bind]', function () {
         var $this;
         var wrap;
 
@@ -143,7 +151,7 @@
           var updateEls;
           updateEls = $(target).find('[data-update]');
 
-          updateEls.each(function() {
+          updateEls.each(function () {
             $(this).html(viewData[$(this).data('update')]);
           });
         }

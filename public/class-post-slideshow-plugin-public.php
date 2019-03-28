@@ -158,8 +158,7 @@ class Post_Slideshow_Plugin_Public {
                     'editor',
                     'author',
                     'comments',
-                    'thumbnail',
-                    'excerpt'
+                    'thumbnail'
                 )
             )
         );

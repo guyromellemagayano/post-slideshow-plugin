@@ -1,0 +1,10 @@
+.hndle {
+  margin: 0;
+
+  & > img {
+    width: 100%;
+    max-width: 4em;
+    height: 4em;
+    margin-right: 1em;
+  }
+}

@@ -179,6 +179,7 @@ class Post_Slideshow_Plugin_Admin {
 		 * class.
 		 */
 
+        wp_enqueue_style( $this->plugin_name . '-font-awesome', 'https://use.fontawesome.com/releases/v5.8.1/css/all.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'dist/css/post-slideshow-plugin-admin.min.css', array(), $this->version, 'all' );
 
 	}
