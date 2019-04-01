@@ -3,6 +3,12 @@
     display: none !important;
   }
 
+  &-slide-title {
+    margin-top: 1.25rem;
+    width: 100%;
+    float: left;
+  }
+
   &-slide-description {
     margin: 2rem 0 2.75em;
   }
@@ -13,20 +19,23 @@
 
   &-slide-legend {
     margin: 1rem 0;
+
+    .slide-count {
+      color: #888;
+    }
   }
 
   &-nav {
-    &.post-slideshow-slide-prev {
+    &.post-slideshow-slide-prev,
+    &.post-slideshow-slide-next,
+    &.post-slideshow-slide-end {
       float: left;
-    }
-
-    &.post-slideshow-slide-next {
-      float: right;
+      margin-right: 1rem;
     }
   }
 
   &-slide-footer {
-    text-align: center;
+    text-align: left;
   }
 
   &-slide-overview {
@@ -51,6 +60,20 @@
     &-slide-title {
       margin-top: .75em;
       margin-bottom: .75em;
+    }
+  }
+
+  &-slide-featured-image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  &-slide-title {
+    small {
+      font-style: italic;
+      display: block;
+      clear: both;
+      margin-bottom: 1.5em;
     }
   }
 }

@@ -1,0 +1,15 @@
+.post-slideshow {
+  &-share-buttons {
+    a {
+      font-weight: bold;
+      font-size: .85em;
+      text-decoration: none !important;
+
+      &:hover,
+      &:focus {
+        outline: none;
+        text-decoration: none;
+      }
+    }
+  }
+}

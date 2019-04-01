@@ -1,0 +1,13 @@
+.post-slideshow {
+  &-share-buttons {
+    display: block;
+    padding-left: 0;
+    margin-bottom: 2em;
+
+    li {
+      width: auto;
+      display: inline-block;
+      margin-right: 1.25em;
+    }
+  }
+}
