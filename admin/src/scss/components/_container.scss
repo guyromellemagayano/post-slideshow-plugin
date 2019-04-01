@@ -3,6 +3,19 @@
     width: 100%;
     margin: 0;
 
+    &.post-slideshow-add-slide {
+      .meta-box-sortables {
+        & > .postbox {
+          width: 96.85% !important;
+          position: relative;
+
+          h2 {
+            min-height: unset !important;
+          }
+        }
+      }
+    }
+
     .meta-box-sortables {
       padding-top: .85em;
       display: flex;
@@ -38,13 +51,6 @@
       .postbox {
         margin: 0;
       }
-    }
-
-    .post-slideshow-imgholder {
-      width: 4em;
-      height: 4em;
-      background-color: #666;
-      margin-right: 1em;
     }
   }
 
