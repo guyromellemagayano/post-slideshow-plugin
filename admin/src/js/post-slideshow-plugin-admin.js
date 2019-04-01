@@ -27,19 +27,20 @@
     * practising this, we should strive to set a better example in our own work.
     */
 
-    var viewData;
-    viewData = {};
+    $(function(event) {
+      var viewData;
+      viewData = {};
 
-    $(function() {
-      $('button.post-slideshow-add-slide').on('click', function () {
+      $('button.post-slideshow-add-slide').on('click', function (event) {
         var output, index;
 
-        index = $('.post-slideshow-slide').length + 1;
+        index = $('.post-slideshow-slide .postbox').length + 1;
+        console.log(index);
 
         output = '<div class="wrap post-slideshow-slide post-slideshow-add-slide">';
         output += '<div class="meta-box-sortables">';
-        output += '<div class="postbox ui-sortable-handle">';
-        output += '<h2 class="hndle ui-sortable" id="slide-preview"><i class="fas fa-ellipsis-v"></i><span class="post-slideshow-imgholder"></span><strong data-update="post-slideshow-title">New Slide</strong></h2>';
+        output += '<div class="postbox">';
+        output += '<h2 id="slide-preview"><strong data-update="post-slideshow-title">New Slide</strong></h2>';
         output += '<div class="inside">';
         output += '<div class="form-group">';
         output += '<label for="slide-title"><h4>Slide Title</h4></label>';
@@ -67,17 +68,18 @@
 
         var settings = {
           tinymce: true,
-          media_buttons: false,
-          height: 300,
+          media_buttons: true,
           quicktags: {
             buttons: 'strong,em,link,ul,ol,li',
             media_buttons: true,
           }
         };
+        
         wp.editor.initialize('slide_description_' + index, settings);
+
       });
 
-      $(document).on('click', 'button.post-slideshow-add-featured-image', function () {
+      $(document).on('click', 'button.post-slideshow-add-featured-image', function (event) {
         var frame, container;
 
         container = $(this).parent();
@@ -121,7 +123,17 @@
         return false;
       });
 
-      $(document).on('click', '.delete-post-slideshow-img', function () {
+      $(document).on('tinymce-editor-setup', function (event, editor) {
+        var el, defaultToolbar;
+        el = $(editor.id);
+    
+        if (editor.id !== 'content') {
+          editor.settings.height = '350';
+          editor.settings.toolbar1 = 'formatselect,bold,italic,bullist,numlist,link,unlink,blockquote,alignleft,aligncenter,alignright';
+        }
+      });
+
+      $(document).on('click', '.delete-post-slideshow-img', function (event) {
         var container;
 
         container = $(this).parent().parent().parent().parent();

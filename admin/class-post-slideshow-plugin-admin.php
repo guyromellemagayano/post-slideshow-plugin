@@ -103,7 +103,90 @@ class Post_Slideshow_Plugin_Admin {
      */
     public function post_slideshow_meta_callback( $post ) {
 
-        include_once 'partials/post-slideshow-plugin-admin-slide.php';
+        wp_nonce_field( 'post_slideshow_plugin_meta', 'post_slideshow_plugin_meta_nonce' );
+
+        $post_slides = get_post_meta( $post->ID, 'post_slideshow_slides', true );
+
+        $i = 0;
+        $output = '';
+
+        echo '<div class="wrap post-slideshow-slide">';
+        echo '<div class="meta-box-sortables">';
+
+        if ( $post_slides ) :
+            foreach( $post_slides as $post_slide ) :
+
+                // Pre-increment post slides
+                $i++;
+
+                echo '<div class="postbox closed ui-sortable-handle">';
+                echo '<button type="button" class="handlediv" aria-expanded="true">';
+                echo '<span class="screen-reader-text">Toggle panel</span>';
+                echo '<span class="toggle-indicator" aria-hidden="true"></span>';
+                echo '</button>';
+                echo '<h2 class="hndle ui-sortable" id="slide-preview"><i class="fas fa-ellipsis-v"></i>';
+
+                if ($post_slide['post_slideshow_featured_image']):
+                    $featured_img = wp_get_attachment_image_src($post_slide['post_slideshow_featured_image'], 'thumbnail');
+
+                    if (isset($featured_img[0])):
+                        $url = $featured_img[0];
+
+                        echo '<img src="' . $url . '" alt="" />';
+                    endif;
+                endif;
+
+                echo '<strong data-update="post-slideshow-title">' . $post_slide['post_slideshow_title'] . '</strong></h2>';
+                echo '<div class="inside">';
+                echo '<div class="form-group">';
+                echo '<label for="slide-title"><h4>Slide Title</h4></label>';
+                echo '<input type="text" class="large-text slide-title" name="post_slideshow_title[]" value="' . $post_slide['post_slideshow_title'] . '" data-bind="post-slideshow-title" />';
+                echo '</div>';
+                echo '<div class="form-group">';
+                echo '<label for="slide-featured-image"><h4>Featured Image</h4></label>';
+                
+                $btn_text = $post_slide['post_slideshow_featured_image'] ? __('Change Featured Image', 'post-slideshow') : __('Attach Featured Image', 'post-slideshow');
+
+                echo '<button type="button" class="button post-slideshow-add-featured-image">' . $btn_text . '</button>';
+                echo '<input type="hidden" class="slide-featured-image" name="post_slideshow_featured_image[]" value="' . $post_slide['post_slideshow_featured_image'] .'" />';
+
+                if ( $post_slide['post_slideshow_featured_image'] ) :
+                    $featured_img = wp_get_attachment_image_src( $post_slide['post_slideshow_featured_image'], 'medium' );
+
+                    if ( isset( $featured_img[0] ) ) :
+                        $url = $featured_img[0];
+
+                        echo '<div class="post-slideshow-img-preview">';
+                        echo '<div class="post-slideshow-img-preview--inner">';
+                        echo '<span class="dashicons dashicons-no delete-post-slideshow-img"></span>';
+                        echo '<img src="' . $url . '" alt="" />';
+                        echo '</div>';
+                        echo '</div>';
+                    endif;
+                endif;
+
+                echo '</div>';
+                echo '<div class="form-group">';
+                echo '<label for="slide-description"><h4>Slide Description</h4></label>';
+
+                $editor_settings = array(
+                    'media_buttons' => false,
+                    'editor_height' => 350,
+                    'textarea_name'	=> 'post_slideshow_description[]'
+                );
+
+                wp_editor( $post_slide['post_slideshow_description'], 'slide_description_' . $i, $editor_settings );
+
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+
+            endforeach;
+        endif;
+
+        echo '</div>';
+        echo '</div>';
+        echo '<button type="button" class="button post-slideshow-add-slide">' . __( 'Add Slide', 'post-slideshow' ) . '</button>';
 
     }
 

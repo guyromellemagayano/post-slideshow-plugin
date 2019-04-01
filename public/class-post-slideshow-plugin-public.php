@@ -147,11 +147,13 @@ class Post_Slideshow_Plugin_Public {
                 'show_ui'               => true,
                 'show_in_menu'          => true,
                 'query_var'             => true,
+                'can_export'            => true,
                 'rewrite'               => array( 'slug' => $options['base_slug'] ),
                 'capability_type'       => 'post',
                 'has_archive'           => true,
                 'hierarchical'          => false,
                 'menu_position'         => 5,
+                'with_front'            => false,
                 'taxonomies'            => array( 'category', 'post_tag' ),
                 'supports'              => array(
                     'title',

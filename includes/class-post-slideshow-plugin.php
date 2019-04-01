@@ -256,8 +256,20 @@ class Post_Slideshow_Plugin {
      */
     public function output_slideshow_markup( $post_id ) {
 
+        global $post;
+
         $slideshow = new Post_Slideshow_Post( $post_id );
         $index = $this->get_slide_index();
+
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') :
+            $page_url = "https";
+        else :
+            $page_url = "http";
+        endif;
+
+        $page_url .= "://";
+        $page_url .= $_SERVER['HTTP_HOST'];
+        $page_url .= $_SERVER['REQUEST_URI'];
 
         $output = '';
 
@@ -265,7 +277,7 @@ class Post_Slideshow_Plugin {
 
         $output .= '<div class="post-slideshow-begin-wrap">';
         $output .= '<button data-open="1" class="button ' . $begin_class . '">';
-        $output .= __( 'Begin Slideshow', 'post-slideshow' ) . '</button>';
+        $output .= __( 'Begin Slideshow', 'post-slideshow' ) . '&nbsp; <i class="fas fa-chevron-right"></i></button>';
         $output .= '</div>';
 
         if ( $slideshow->post_slides ) :
@@ -305,22 +317,60 @@ class Post_Slideshow_Plugin {
                     endif;
                 endif;
 
+                if ( $slide_count > $i && $i <= $slide_count - 1 ) :
+                    $output .= '<button data-open="' . ($i + 1) . '" class="button post-slideshow-nav post-slideshow-slide-next">' . __( 'Next Slide', 'post-slideshow' ) . '&nbsp;<i class="fas fa-chevron-right"></i></button>';
+                endif;
+
                 $output .= '</div>';
                 $output .= '<div class="post-slideshow-slide-title">';
                 $output .= '<h3>' . $post_slide['post_slideshow_title'] . '</h3>';
+                $output .= '<small>by <a href="' . get_author_posts_url( $post->post_author ) . '" rel="external">' . get_the_author_meta( 'display_name', $post->post_author ) . '</a></small>';
                 $output .= '</div>';
                 $output .= '<div class="post-slideshow-slide-description">' . $post_slide['post_slideshow_description'] . '</div>';
+                $output .= '<div class="post-slideshow-share-slide">';
+                $output .= '<ul class="post-slideshow-share-buttons">';
+
+                $social_data = array(
+                    'facebook' => array(
+                        'title' => 'Facebook',
+                        'icon'  => 'fab fa-facebook',
+                        'class' => 'facebook',
+                        'url'   => 'https://www.facebook.com/sharer/sharer.php?u=' . $page_url,
+                    ),
+                    'twitter' => array(
+                        'title' => 'Twitter',
+                        'icon'  => 'fab fa-twitter',
+                        'class' => 'twitter',
+                        'url'   => 'https://twitter.com/intent/tweet?text=' . $page_title . '&amp;url=' . $page_url . '&amp;via=' . $twitter_username
+                    ),
+                    'mail'    => array(
+                        'title' => 'Mail',
+                        'icon'  => 'fas fa-envelope-open-text',
+                        'class' => 'mail',
+                        'url'   => 'mailto:' . $page_url
+                    )
+                );
+
+                foreach( $social_data as $link ) :
+                    $output .= '<li class="' . $link['class'] . '"><a href="' . $link['url'] . '" target="_blank"><i class="' . $link['icon'] . '"></i>&nbsp; ' . $link['title'] . '</a></li>';
+                endforeach;
+
+                $output .= '</ul>';
+                $output .= '</div>';
                 $output .= '<div class="post-slideshow-slide-footer">';
                 $output .= '<div class="post-slideshow-button-wrap">';
-                $output .= '<button data-open="' . ($i - 1) . '" class="button post-slideshow-nav post-slideshow-slide-prev">' . __( 'Previous', 'post-slideshow' ) . '</button>';
 
-                if ( $slide_count > $i ) :
-                    $output .= '<button data-open="' . ($i + 1) . '" class="button post-slideshow-nav post-slideshow-slide-next">' . __( 'Next', 'post-slideshow' ) . '</button>';
+                if ( $slide_count > $i && $i <= $slide_count - 1 ) :
+                    $output .= '<button data-open="' . ($i - 1) . '" class="button post-slideshow-nav post-slideshow-slide-prev">&nbsp;<i class="fas fa-chevron-left"></i>' . __( 'Previous', 'post-slideshow' ) . '</button>';
+                    $output .= '<button data-open="' . ($i + 1) . '" class="button post-slideshow-nav post-slideshow-slide-next">' . __( 'Next', 'post-slideshow' ) . '&nbsp;<i class="fas fa-chevron-right"></i></button>';
+                else :
+                    $output .= '<button data-open="' . ($i - 1) . '" class="button post-slideshow-nav post-slideshow-slide-prev">&nbsp;<i class="fas fa-chevron-left"></i>' . __('Previous', 'post-slideshow') . '</button>';
+                    $output .= '<button data-open="' . ($i - $slide_count) . '" class="button post-slideshow-nav post-slideshow-slide-end">' . __('Return to Article', 'post-slideshow') . '&nbsp;<i class="fas fa-stop"></i></button>';
                 endif;
 
                 $output .= '</div>';
                 $output .= '<div class="post-slideshow-slide-legend">';
-                $output .= '<span>Page ' . $i . ' / ' . $slide_count . '</span>';
+                $output .= '<div>Page ' . $i . ' / <span class="slide-count">' . $slide_count . '</span></div>';
                 $output .= '</div>';
                 $output .= '</div>';
                 $output .= '</div>';
