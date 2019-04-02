@@ -155,12 +155,12 @@ class Post_Slideshow_Plugin {
 
 		$plugin_admin = new Post_Slideshow_Plugin_Admin( $this->get_plugin_name(), $this->get_version() );
 
+        $this->loader->add_action( 'admin_menu', $plugin_admin, 'add_plugin_admin_menu' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
         $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
         $this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'post_slideshow_meta_boxes' );
         $this->loader->add_action( 'save_post', $plugin_admin, 'post_slideshow_meta_save' );
         $this->loader->add_action( 'admin_init', $plugin_admin, 'enqueue_editor' );
-        $this->loader->add_action( 'admin_menu', $plugin_admin, 'add_plugin_admin_menu');
         $this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings' );
         $this->loader->add_action( 'updated_option', $plugin_admin, 'flush_permalinks', 100, 3 );
 
@@ -249,6 +249,25 @@ class Post_Slideshow_Plugin {
     }
 
     /**
+     * Get current page URL
+     *
+     * @since   1.0.0
+     */
+    public function get_page_url() {
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'):
+            $page_url = "https";
+        else:
+            $page_url = "http";
+        endif;
+
+        $page_url .= "://";
+        $page_url .= $_SERVER['HTTP_HOST'];
+        $page_url .= $_SERVER['REQUEST_URI'];
+
+        return $page_url;
+    }
+
+    /**
      * Generates the front-end slideshow markup
      *
      * @since   1.0.0
@@ -260,16 +279,7 @@ class Post_Slideshow_Plugin {
 
         $slideshow = new Post_Slideshow_Post( $post_id );
         $index = $this->get_slide_index();
-
-        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') :
-            $page_url = "https";
-        else :
-            $page_url = "http";
-        endif;
-
-        $page_url .= "://";
-        $page_url .= $_SERVER['HTTP_HOST'];
-        $page_url .= $_SERVER['REQUEST_URI'];
+        $page_url = $this->get_page_url();
 
         $output = '';
 
