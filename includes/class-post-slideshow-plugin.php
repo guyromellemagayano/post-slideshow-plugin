@@ -357,7 +357,7 @@ class Post_Slideshow_Plugin {
                         'title' => 'Mail',
                         'icon'  => 'fas fa-envelope-open-text',
                         'class' => 'mail',
-                        'url'   => 'mailto:' . $page_url
+                        'url'   => 'mailto:?subject=I wanted to share this post with you from ' . get_bloginfo( 'name' ) . ' website&body=' . get_the_title( '' , '', true ) . ' from ' . $page_url
                     )
                 );
 
