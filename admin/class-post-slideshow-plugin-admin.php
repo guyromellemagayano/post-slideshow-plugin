@@ -144,7 +144,7 @@ class Post_Slideshow_Plugin_Admin {
                 echo '</div>';
                 echo '<div class="form-group">';
                 echo '<label for="slide-featured-image"><h4>Featured Image</h4></label>';
-                
+
                 $btn_text = $post_slide['post_slideshow_featured_image'] ? __('Change Featured Image', 'post-slideshow') : __('Attach Featured Image', 'post-slideshow');
 
                 echo '<button type="button" class="button post-slideshow-add-featured-image">' . $btn_text . '</button>';
